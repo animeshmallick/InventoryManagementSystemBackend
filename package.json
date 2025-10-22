@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "test": "jest --coverage --runInBand"
+    "start": "npm run test && node ./bin/www",
+    "test": "jest --coverage --runInBand",
+    "dev": "nodemon ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.7",
