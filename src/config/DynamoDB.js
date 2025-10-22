@@ -6,27 +6,32 @@ require("dotenv").config();
 class DynamoDB {
     #client
     constructor() {
-        this.#client = DynamoDBDocumentClient.from(
-            new DynamoDBClient({
-                region: process.env.AWS_REGION,
-                credentials: {
-                    accessKeyId: process.env.AWS_ACCESS_KEY,
-                    secretAccessKey: process.env.AWS_SECRET_KEY,
-                }
-            }));
+        this.#client = DynamoDBDocumentClient.from(new DynamoDBClient({
+            region: process.env.AWS_REGION,
+            credentials: {
+                accessKeyId: process.env.AWS_ACCESS_KEY,
+                secretAccessKey: process.env.AWS_SECRET_KEY
+            }
+        }));
     }
 
-
-    async scanCommand(tableName) {
+    // Response will have an array of objects
+    async executeScanCommand(tableName) {
         return (await this.#client.send(new ScanCommand({TableName: tableName}))).Items;
     }
 
-    async putCommand(tableName, data){
-        try {
-            return (await this.#client.send(new PutCommand({TableName: tableName, Item: data})));
-        }catch (err){
-            throw err;
-        }
+    // Response will have a key httpStatusCode
+    async executePutCommand(tableName, data){
+        return (await this.#client.send(new PutCommand({TableName: tableName, Item: data}))).$metadata;
+    }
+
+    // Response will have an object if found, or else an object has a key error with the value 'No Data Found'
+    async executeGetCommand(tableName, key){
+        const response = (await this.#client.send(new GetCommand({TableName: tableName, Key: key})));
+        if (response.Item)
+            return response.Item;
+
+        return {error: "No data found", tableName: tableName, searchKey: key};
     }
 }
 module.exports = new DynamoDB();
