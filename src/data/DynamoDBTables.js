@@ -1,5 +1,6 @@
 const TABLES = {
-    PRODUCTS: "ims_products",
-    ORDERS: "ims_orders"
+    PRODUCTS: "IMS_Products",
+    ORDERS: "IMS_orders",
+    USERS: "IMS_Users"
 }
 module.exports = TABLES;

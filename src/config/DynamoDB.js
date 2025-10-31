@@ -1,4 +1,4 @@
-const {DynamoDBDocumentClient, ScanCommand, GetCommand, PutCommand} = require("@aws-sdk/lib-dynamodb");
+const {DynamoDBDocumentClient, ScanCommand, GetCommand, PutCommand, DeleteCommand} = require("@aws-sdk/lib-dynamodb");
 const {DynamoDBClient} = require("@aws-sdk/client-dynamodb");
 
 require("dotenv").config();
@@ -32,6 +32,9 @@ class DynamoDB {
             return response.Item;
 
         return {error: "No data found", tableName: tableName, searchKey: key};
+    }
+    async executeDeleteCommand(tableName, key){
+        return (await this.#client.send(new DeleteCommand({TableName: tableName, Key: key}))).$metadata;
     }
 }
 module.exports = new DynamoDB();
