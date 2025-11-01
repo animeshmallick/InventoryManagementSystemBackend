@@ -4,6 +4,7 @@ const path = require('path');
 const logger = require('morgan');
 const cors = require("cors");
 const cookieParser = require('cookie-parser');
+const allowedOrigin = ["http://localhost:3000", "https://www.quickchoice.in"];
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(cors({
-  origin : "http://localhost:3000",
+  origin: ["http://localhost:3000", "https://www.quickchoice.in"],
   credentials: true
 }));
 
