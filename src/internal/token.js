@@ -12,6 +12,7 @@ class Token {
         let token;
         if (req.cookies && req.cookies.token)
             token = req.cookies.token;
+        console.log(token);
         if(!token)
             return res.status(403).json({message: "Authorization Token Missing"});
 
