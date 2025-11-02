@@ -12,7 +12,7 @@ router.post('/', Token.verifyToken, async function (req, res) {
     const userRole = req.userRole;
     if(!userId || userRole !== "admin")
         return res.status(401).send('User Authorization failed');
-    if (!productDetails || !productDetails.productName || !productDetails.productQuantity || !productDetails.productPrice)
+    if (!productDetails || !productDetails.productName || !productDetails.productQuantity || !productDetails.productCostPrice || !productDetails.productSellingPrice)
         return res.status(400).json({message: 'Invalid product details'});
     const timestamp = new Date().toISOString();
     const productId = Util.generateProductId();
@@ -20,7 +20,8 @@ router.post('/', Token.verifyToken, async function (req, res) {
         product_id : productId,
         productName: productDetails.productName,
         productStock: productDetails.productQuantity,
-        productPrice: productDetails.productPrice,
+        productCostPrice: productDetails.productCostPrice,
+        productSellingPrice: productDetails.productSellingPrice,
         createdBy: userId,
         lastUpdatedAt: timestamp
     };

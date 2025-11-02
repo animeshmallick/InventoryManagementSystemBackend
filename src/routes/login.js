@@ -17,7 +17,7 @@ router.post('/', async function (req, res, next) {
     //Set cookie
     res.cookie("token", authToken, {
         httpOnly: true,
-        secure: process.env.ENV==="PROD",
+        secure: true,
         sameSite: "none",
         //sameSite: process.env.ENV==="PROD"?"strict":"lax",
         maxAge: 60 * 60 * 1000,
