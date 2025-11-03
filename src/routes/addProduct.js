@@ -12,13 +12,15 @@ router.post('/', Token.verifyToken, async function (req, res) {
     const userRole = req.userRole;
     if(!userId || userRole !== "admin")
         return res.status(401).send('User Authorization failed');
-    if (!productDetails || !productDetails.productName || !productDetails.productQuantity || !productDetails.productCostPrice || !productDetails.productSellingPrice)
+    if (!productDetails || !productDetails.productName || !productDetails.productQuantity ||
+        !productDetails.productCostPrice || !productDetails.productSellingPrice || !productDetails.productCategory)
         return res.status(400).json({message: 'Invalid product details'});
     const timestamp = new Date().toISOString();
     const productId = Util.generateProductId();
     const product = {
         product_id : productId,
         productName: productDetails.productName,
+        productCategory: productDetails.productCategory,
         productStock: productDetails.productQuantity,
         productCostPrice: productDetails.productCostPrice,
         productSellingPrice: productDetails.productSellingPrice,
