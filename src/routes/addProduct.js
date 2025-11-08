@@ -23,6 +23,8 @@ router.post('/', Token.verifyToken, async function (req, res) {
         productStock: 0,
         productCostPrice: productDetails.productCostPrice,
         productSellingPrice: productDetails.productSellingPrice,
+        totalAmountProcured: 0,
+        totalAmountSold: 0,
         createdBy: userId,
         lastUpdatedAt: timestamp
     };
