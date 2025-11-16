@@ -34,17 +34,20 @@ router.post('/', Token.verifyToken, async function (req, res) {
     const updatedProduct = updatedAllProducts.find(updatedProduct => updatedProduct.product_id === product.product_id);
     if(response.httpStatusCode === 200) {
         const orderId = Util.generateOrderId();
-        const order = {
-            order_id: orderId,
-            orderDetails: {
+        if(orderId) {
+            const order = {
+                order_id: orderId,
                 productId: updatedProduct.product_id,
                 quantity: productDetails.productQuantity,
                 unitPrice: productDetails.unitPrice,
                 totalOrderAmount: Number(productDetails.unitPrice * productDetails.productQuantity),
                 requestType: productDetails.requestType,
-            }
-        };
-        const updOrdersResponse = await Database.executePutCommand(tables.ORDERS, order);
+                orderDate: new Date().toLocaleDateString("en-IN", {timeZone: "Asia/Kolkata"}),
+                orderTime: new Date().toLocaleTimeString("en-IN", {timeZone: "Asia/Kolkata"})
+            };
+            const updOrdersResponse = await Database.executePutCommand(tables.ORDERS, order);
+        }
+
         const allOrders = await Database.executeScanCommand(tables.ORDERS);
 
         return res.status(200).json({message: `Successfully updated product: ${product.productName}`,
