@@ -13,7 +13,8 @@ router.post("/:orderId", Token.verifyToken, async (req, res) => {
     if(!orderId) return res.status(400).json({success: false, message: 'Order ID missing or invalid'});
     const orderDetails = await Database.executeGetCommand(tables.ORDERS, {order_id: orderId});
     const deleteOrderResponse = await Database.executeDeleteCommand(tables.ORDERS, {order_id: orderId});
-    const productDetails = await Database.executeGetCommand(tables.PRODUCTS,{product_id: orderDetails.productId});
+
+    const productDetails = await Database.executeGetCommand(tables.PRODUCTS,{product_id: orderDetails.product_id});
     if(orderDetails.requestType === "sell") {
         productDetails.productStock += orderDetails.quantity;
         productDetails.totalAmountSold -= orderDetails.totalOrderAmount;

@@ -37,7 +37,7 @@ router.post('/', Token.verifyToken, async function (req, res) {
         if(orderId) {
             const order = {
                 order_id: orderId,
-                productId: updatedProduct.product_id,
+                product_id: updatedProduct.product_id,
                 quantity: productDetails.productQuantity,
                 unitPrice: productDetails.unitPrice,
                 totalOrderAmount: Number(productDetails.unitPrice * productDetails.productQuantity),

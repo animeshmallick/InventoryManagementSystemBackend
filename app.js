@@ -34,6 +34,7 @@ app.use('/getProduct', require('./src/routes/getProduct'));
 app.use('/updateProduct', require('./src/routes/updateProduct'));
 app.use('/getOrders', require('./src/routes/getOrders'));
 app.use('/deleteOrder', require('./src/routes/deleteOrder'));
+app.use('/getAllOrders', require('./src/routes/getAllOrders'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
